@@ -176,6 +176,7 @@ function faqHtml(n){return FAQ.slice(0,n||FAQ.length).map(function(q){return '<d
 function rowHtml(k){var p=P[k],w=num(p.works),m=num(p.mats);
  return '<div class="row" data-t="'+k+'"><div class="ic"><img src="img/ico-'+p.ico+'.webp" alt=""></div><div><b>'+p.n+'</b><small>'+(w.p?w.p+' ':'')+w.n+' работ · '+(m.p?m.p+' ':'')+m.n+' материалов</small></div><span class="ch">›</span></div>';}
 
+function fbk(im){if(im.getAttribute('data-fb'))return;im.setAttribute('data-fb','1');var s=im.getAttribute('src');im.src=s.replace(/^img\//,'');}
 var V={};
 V.home=function(){return ''+
 '<section class="hero"><div class="pad"><div class="txt"><div class="eyebrow">Таблицы Excel для мастеров</div>'+
@@ -206,11 +207,11 @@ V.table=function(k){var p=P[k],w=num(p.works),m=num(p.mats);
  return '<section class="hero"><div class="pad"><div class="txt"><div class="eyebrow">'+GR[k]+'</div><h1 style="font-size:24px">'+p.n+'</h1><p class="lead">'+p.lead+'</p></div></div></section>'+
  '<section class="band"><div class="pad"><div class="nums"><div class="num"><small>'+(w.p||'работ')+'</small><b>'+w.n+'</b><span>работ</span></div><div class="num"><small>'+(m.p||'материалов')+'</small><b>'+m.n+'</b><span>материалов</span></div></div></div></section>'+
  '<section class="band alt"><div class="pad"><div class="head"><div class="eyebrow">Листы таблицы</div><h2>Как это выглядит</h2></div><div class="vtabs" id="vt">'+SH.map(function(s,i){return '<button class="vtab" data-i="'+i+'" aria-selected="'+(i==0)+'">'+s[0]+'</button>';}).join('')+'</div>'+
- '<div class="shot"><div class="bar"><i></i><i></i><i></i><span id="vn" style="margin-left:6px"></span></div><img id="vi" src="'+k+'-1.webp" alt=""></div><p class="vcap" id="vc"></p></div></section>'+
+ '<div class="shot"><div class="bar"><i></i><i></i><i></i><span id="vn" style="margin-left:6px"></span></div><img id="vi" src="img/'+k+'-1.webp" alt="" onerror="fbk(this)"></div><p class="vcap" id="vc"></p></div></section>'+
  '<section class="band"><div class="pad"><div class="head"><div class="eyebrow">Что в прайсе</div><h2>Разделы работ</h2></div><div class="sec">'+p.sec.map(function(s){return '<span>'+esc(s)+'</span>';}).join('')+'</div>'+
  '<p class="lead" style="margin-top:14px;font-size:14.5px">'+(p.sheets.length>1?'Вкладки прайса: '+p.sheets.join(', ')+'. ':p.sheets[0]+'. ')+'Подходит для '+p.who+'.</p></div></section>'+
  '<section class="band sage"><div class="pad"><div class="card"><div class="head" style="margin-bottom:12px"><h3>Эта таблица входит в архив из 25</h3></div>'+priceBlock('один платёж')+'<div style="height:14px"></div>'+buyBtn('Купить')+'<button class="btn o block" data-ask style="margin-top:10px">Спросить про эту таблицу</button></div></div></section>';};
-V.table.after=function(k){function show(i){$('#vi').src=k+'-'+(i+1)+'.webp';$('#vn').textContent=P[k].n+' · '+SH[i][0];$('#vc').textContent=SH[i][1];[].forEach.call(document.querySelectorAll('#vt .vtab'),function(b){b.setAttribute('aria-selected',+b.getAttribute('data-i')===i);});}
+V.table.after=function(k){function show(i){var im=$('#vi');im.removeAttribute('data-fb');im.src='img/'+k+'-'+(i+1)+'.webp';$('#vn').textContent=P[k].n+' · '+SH[i][0];$('#vc').textContent=SH[i][1];[].forEach.call(document.querySelectorAll('#vt .vtab'),function(b){b.setAttribute('aria-selected',+b.getAttribute('data-i')===i);});}
  [].forEach.call(document.querySelectorAll('#vt .vtab'),function(b){b.addEventListener('click',function(){hap();show(+b.getAttribute('data-i'));});});show(0);};
 
 V.faq=function(){return '<section class="band"><div class="pad"><div class="head"><div class="eyebrow">Вопросы</div><h2>Частые вопросы</h2></div>'+faqHtml()+'<button class="btn block" data-ask style="margin-top:8px">Задать свой вопрос</button></div></section>';};
