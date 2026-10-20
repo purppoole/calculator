@@ -1,262 +1,262 @@
 <!doctype html>
-<html lang="ru">
-<head>
+<html lang="ru"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Калькулятор сметы</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Все для мастера</title>
+<meta name="theme-color" content="#F6F2E6">
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://st.max.ru/js/max-web-app.js"></script>
 <style>
-:root{--g:#12805c;--g2:#0e6b4d;--ink:#1c222a;--gy:#646a74;--bd:#e3ddd0;--bg:#f6f3ec;--card:#fff;--y:#fff2cc;--lg:#d2f0e4}
+:root{--cream:#F6F2E6;--paper:#FCFAF4;--sage:#E3EEE1;--sage2:#CFE3D3;--green:#12805D;--green-d:#0B5C43;--ink:#16241D;--muted:#55645B;--line:#D8D5C4;--sun:#E3A72F;--blue:#2F5597;
+--fd:'Unbounded','Onest',system-ui,sans-serif;--fb:'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;--fm:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);color-scheme:light}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:16px}
-body{padding-bottom:110px}
-.top{padding:18px 16px 10px}
-.kick{font-size:12px;letter-spacing:.22em;font-weight:800;color:var(--g)}
-h1{margin:6px 0 4px;font-size:26px;line-height:1.1;font-weight:900}
-.lead{color:var(--gy);font-size:14.5px;line-height:1.4;margin:0}
-.seg{display:flex;gap:6px;background:#ebe6da;border-radius:14px;padding:4px;margin:12px 16px 0}
-.seg button{flex:1;border:0;background:transparent;border-radius:11px;padding:10px 4px;font-size:14px;font-weight:700;color:var(--gy);font-family:inherit}
-.seg button.on{background:var(--card);color:var(--g);box-shadow:0 1px 4px rgba(0,0,0,.12)}
-.mode{display:flex;align-items:center;gap:8px;margin:12px 16px 0;font-size:13.5px;color:var(--gy)}
-.mode .seg{margin:0;flex:1}
-.search{margin:12px 16px 0}
-.search input{width:100%;border:1.5px solid var(--bd);border-radius:14px;padding:12px 14px;font-size:16px;background:var(--card);outline:none;font-family:inherit}
-.search input:focus{border-color:var(--g)}
-.sec{margin:18px 16px 8px;font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gy)}
-.item{display:flex;align-items:center;gap:10px;margin:0 16px 8px;background:var(--card);border:1.5px solid var(--bd);border-radius:16px;padding:12px}
-.item.on{border-color:var(--g);background:#f3fbf7}
-.item .nm{flex:1;min-width:0;font-size:14.5px;line-height:1.3;font-weight:600}
-.item .pr{font-size:12.5px;color:var(--gy);margin-top:3px;font-weight:500}
-.step{display:flex;align-items:center;gap:6px}
-.step button{width:36px;height:36px;border-radius:12px;border:0;background:var(--g);color:#fff;font-size:22px;font-weight:700;line-height:1;font-family:inherit}
-.step button.m{background:#e9e4d8;color:var(--ink)}
-.step input{width:44px;height:36px;text-align:center;border:1.5px solid var(--bd);border-radius:10px;font-size:16px;font-weight:700;background:var(--y);color:#0000ff;font-family:inherit}
-.bar{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(246,243,236,.96);backdrop-filter:blur(8px);border-top:1px solid var(--bd);display:flex;gap:12px;align-items:center;z-index:5}
-.bar .sum{flex:1;line-height:1.2}
-.bar .sum b{font-size:20px;display:block}
-.bar .sum span{font-size:12.5px;color:var(--gy)}
-.btn{border:0;border-radius:16px;background:var(--g);color:#fff;font-weight:800;font-size:16px;padding:15px 20px;font-family:inherit}
-.btn.ghost{background:var(--card);color:var(--g);border:1.5px solid var(--g)}
-.btn.full{width:100%;display:block;margin-top:10px;text-align:center}
-.small{display:inline-block;font-size:13px;font-weight:700;padding:8px 12px;border-radius:12px;border:1.5px solid var(--bd);background:var(--card);color:var(--ink);margin:0 6px 0 0;font-family:inherit}
-.small.on{background:var(--g);border-color:var(--g);color:#fff}
-/* doc view */
-.view{display:none}
-.view.on{display:block}
-.doc{margin:12px 16px;background:#fff;border:1px solid var(--bd);border-radius:14px;padding:12px;overflow:hidden}
-.doc h2{margin:2px 0 2px;font-size:17px;text-align:center}
-.doc .sub{font-size:11.5px;color:var(--gy);text-align:center;margin-bottom:8px}
-table{width:100%;border-collapse:collapse;font-size:11.5px}
-th{background:#2f5597;color:#fff;padding:5px 3px;font-weight:700;border:1px solid #1f3d73}
-td{padding:4px 3px;border:1px solid #cfcfcf;vertical-align:middle}
-td.n,td.u,td.q{text-align:center}
-td.p,td.s{text-align:right;white-space:nowrap}
-tr.tot td{border:0;font-weight:800;padding-top:5px}
-tr.line td{border:0;padding:3px}
-tr.mat td{background:#d9d9d9;font-weight:700}
-.ctl{margin:12px 16px 0}
-.ctl .lab{font-size:13px;color:var(--gy);font-weight:700;margin:12px 0 6px}
-.final{margin:12px 16px;background:var(--g);color:#fff;border-radius:18px;padding:14px 16px}
-.final .a{font-size:13px;color:var(--lg)}
-.final .b{font-size:30px;font-weight:900}
-.cta{margin:16px;background:var(--card);border:1.5px solid var(--g);border-radius:20px;padding:16px}
-.cta h3{margin:0 0 6px;font-size:18px}
-.cta p{margin:0 0 4px;font-size:14px;color:var(--gy);line-height:1.4}
-.empty{margin:30px 16px;text-align:center;color:var(--gy);font-size:15px;line-height:1.5}
-.demo{display:inline-block;margin:0 0 8px;padding:5px 11px;border-radius:999px;background:#ffe9a8;color:#7a5a00;font-size:12px;font-weight:800;letter-spacing:.08em}
-.note{margin:12px 16px 0;padding:11px 13px;border-radius:12px;background:#fff6dc;border:1px solid #f0dca0;color:#6b5200;font-size:13px;line-height:1.4}
-.wm{font-size:11px;font-weight:800;letter-spacing:.1em;color:#a07b00;text-align:center;margin:0 0 6px}
-.hint{margin:10px 16px 0;padding:10px 12px;border-radius:12px;background:var(--lg);color:#0b5a40;font-size:13px;line-height:1.35}
-</style>
-</head>
-<body>
-<div class="top">
-  <div class="demo">ДЕМО-ВЕРСИЯ</div>
-  <div class="kick">ВСЁ ДЛЯ МАСТЕРА</div>
-  <h1>Калькулятор сметы</h1>
-  <p class="lead">Так работает моя таблица. Выберите позиции, впишите количество и смотрите готовую смету, допработы и акт.</p>
-</div>
-
-<div class="seg" id="tabs">
-  <button data-t="calc" class="on">Позиции</button>
-  <button data-t="smeta">Смета</button>
-  <button data-t="dop">Допработы</button>
-  <button data-t="akt">Акт</button>
-</div>
-
-<div class="note"><b>Это демонстрация.</b> Здесь пример на условных позициях и ценах, документы нельзя скачать или подписать. В самой таблице позиции и цены вы заполняете под себя, а Смета, Допработы и Акт собираются в файле Excel.</div>
-
-<!-- PICKER -->
-<div class="view on" id="v-calc">
-  <div class="mode"><span>Количество для:</span>
-    <div class="seg"><button data-m="1" class="on">Основного договора</button><button data-m="2">Допработ</button></div>
-  </div>
-  <div class="seg" id="cats" style="margin-top:10px"><button data-c="work1" class="on">Электрика, сантехника</button><button data-c="work2">Плитка, отделка</button><button data-c="mat">Материалы</button></div>
-  <div class="search"><input id="q" type="search" placeholder="Поиск по позициям"></div>
-  <div class="hint" id="hint"></div>
-  <div id="list"></div>
-  <div style="margin:18px 16px 0;display:flex;gap:10px">
-    <button class="btn ghost" style="flex:1" id="demo">Заполнить пример</button>
-    <button class="btn ghost" style="flex:1" id="reset">Сбросить</button>
-  </div>
-</div>
-
-<!-- DOC VIEWS -->
-<div class="view" id="v-smeta"></div>
-<div class="view" id="v-dop"></div>
-<div class="view" id="v-akt"></div>
-
-<div class="bar" id="bar">
-  <div class="sum"><b id="bsum">0 ₽</b><span id="bcnt">позиций: 0</span></div>
-  <button class="btn" id="bgo">Смотреть смету</button>
-</div>
-
+html,body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.5}
+body{padding-top:var(--sat);padding-bottom:calc(72px + var(--sab))}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3{font-family:var(--fd);font-weight:600;line-height:1.15;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h1{font-size:27px}h2{font-size:22px}h3{font-size:16px;line-height:1.25}
+p{margin:0}button{font:inherit;color:inherit}
+.app{max-width:560px;margin:0 auto}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-d);font-weight:500}
+.lead{color:var(--muted);font-size:16px}
+/* top */
+.top{position:sticky;top:var(--sat);z-index:20;background:var(--cream);border-bottom:1px solid var(--line)}
+.top .in{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px}
+.brand{display:flex;align-items:center;gap:10px}.brand img{height:36px;width:auto}
+.brand b{display:block;line-height:1;font-weight:800;font-size:13px;letter-spacing:.02em}.brand b span{display:block;font-family:var(--fd);font-size:17px;color:var(--green-d);margin-top:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:14px 20px;font-weight:700;font-size:16px;background:var(--green);color:#fff;cursor:pointer;text-decoration:none}
+.btn:active{transform:scale(.98)}
+.btn.o{background:#fff;color:var(--green-d);border:1.5px solid var(--green)}
+.btn.s{padding:9px 14px;font-size:14px;border-radius:12px}
+.btn.block{display:flex;width:100%}
+.btn.sun{background:var(--sun);color:var(--ink)}
+/* sections */
+.view{display:none}.view.on{display:block}
+.band{padding-block:28px}
+.band.alt{background:var(--paper);border-block:1px solid var(--line)}
+.band.sage{background:var(--sage)}
+.head{display:grid;gap:8px;margin-bottom:18px}
+/* hero */
+.hero{background:var(--sage);background-image:linear-gradient(var(--sage2) 1px,transparent 1px),linear-gradient(90deg,var(--sage2) 1px,transparent 1px);background-size:36px 36px;border-bottom:1px solid var(--line);padding-block:26px 28px}
+.hero .txt{display:grid;gap:16px}
+.hero figure{margin:20px 0 0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--cream)}
+.cta{display:grid;gap:10px}
+.facts{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--fm);font-size:12.5px;color:var(--green-d);font-weight:500}
+.facts span::before{content:"";display:inline-block;width:7px;height:7px;background:var(--green);margin-right:7px;transform:translateY(-1px)}
+/* cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
+.steps{display:grid;gap:10px;counter-reset:s}
+.step{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.step i{flex:none;width:34px;height:34px;border-radius:10px;background:var(--green);color:#fff;font-style:normal;font-family:var(--fm);font-weight:600;display:flex;align-items:center;justify-content:center}
+.step b{display:block;font-size:16px}.step span{color:var(--muted);font-size:14.5px;line-height:1.4}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;font-size:15px}
+.tbl th{background:var(--blue);color:#fff;text-align:left;padding:10px 14px;font-weight:600;font-size:13px}
+.tbl td{padding:11px 14px;border-top:1px solid #ececec;vertical-align:top}.tbl tr:nth-child(even) td{background:#F7F9F6}
+.tbl td.c,.tbl th.c{text-align:center;font-family:var(--fm);font-weight:600}
+/* catalog */
+.search{width:100%;padding:13px 16px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:16px;outline:none}
+.search:focus{border-color:var(--green)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.fchip{flex:none;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.fchip[aria-pressed=true]{background:var(--green-d);border-color:var(--green-d);color:#fff}
+.list{display:grid;gap:10px;margin-top:12px}
+.row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;text-decoration:none;color:inherit;cursor:pointer}
+.row:active{background:var(--sage)}
+.row .ic{flex:none;width:48px;height:48px;border-radius:14px;background:var(--sage);display:flex;align-items:center;justify-content:center}.row .ic img{width:28px;height:28px}
+.row b{display:block;font-size:16px;line-height:1.2}.row small{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.row .ch{margin-left:auto;color:var(--green);font-size:22px;font-weight:700}
+.gtitle{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-d);margin:18px 0 -2px}
+.none{text-align:center;color:var(--muted);padding:24px 0}
+/* table page */
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.num{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.num small{display:block;font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.num b{font-family:var(--fd);font-size:26px;color:var(--green-d)}.num span{font-size:14px;margin-left:5px}
+.vtabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:10px}.vtabs::-webkit-scrollbar{display:none}
+.vtab{flex:none;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;font-size:13.5px;font-weight:600;cursor:pointer}
+.vtab[aria-selected=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.shot{border:1px solid #bdbdbd;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 10px 30px rgba(22,36,29,.12)}
+.shot .bar{background:#217346;color:#fff;height:30px;display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;font-weight:600}.shot .bar i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55)}
+.vcap{color:var(--muted);font-size:14.5px;margin-top:10px}
+.sec{display:flex;flex-wrap:wrap;gap:8px}.sec span{background:var(--sage);color:var(--green-d);border-radius:10px;padding:7px 12px;font-size:14px;font-weight:600}
+/* price */
+.price b{font-family:var(--fd);font-size:44px;color:var(--green-d);display:block;line-height:1}.price small{display:block;color:var(--muted);margin-top:6px}
+.promo{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;background:var(--yel,#FFF2CC);border:1.5px dashed var(--sun);border-radius:14px;padding:12px 14px;background:#FFF2CC}
+.promo span{font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block}
+.promo b{font-family:var(--fm);font-size:20px;letter-spacing:.05em}
+.promo em{font-style:normal;font-size:13px;color:var(--muted);display:block;margin-top:2px}
+.ck{color:var(--green);font-weight:800}
+/* faq */
+details{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:8px}
+summary{cursor:pointer;padding:14px 16px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::-webkit-details-marker{display:none}summary::after{content:"+";color:var(--green);font-size:20px;line-height:1}
+details[open] summary::after{content:"−"}
+details .a{padding:0 16px 14px;color:var(--muted);font-size:15px}
+/* tabbar */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--paper);border-top:1px solid var(--line);padding-bottom:var(--sab)}
+.tabbar .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.tb{border:0;background:transparent;padding:9px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.tb svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tb[aria-current=true]{color:var(--green-d)}
+/* sheet */
+.ov{position:fixed;inset:0;z-index:50;background:rgba(22,36,29,.45);display:none;align-items:flex-end}
+.ov.on{display:flex}
+.sheet{width:100%;max-width:560px;margin:0 auto;background:var(--cream);border-radius:24px 24px 0 0;padding:20px 16px calc(20px + var(--sab));display:grid;gap:12px}
+.sheet h3{font-size:18px}
+.cbtn{display:flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:15px;font-weight:800;font-size:17px;color:#fff;border:0;text-decoration:none;cursor:pointer}
+.wa{background:#1fa855}.tg{background:#229ED9}.mx{background:#6b3fd4}
+.toast{position:fixed;left:50%;bottom:calc(90px + var(--sab));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;display:none}
+.toast.on{display:block}
+.foot{color:var(--muted);font-size:13px;text-align:center;padding:10px 16px 0}
+</style></head><body>
+<div class="top"><div class="app pad"><div class="in">
+ <div class="brand"><img src="img/mark.webp" alt=""><b>ВСЁ ДЛЯ<span>МАСТЕРА</span></b></div>
+ <button class="btn s o" id="askTop">Спросить</button>
+</div></div></div>
+<div class="app" id="root"></div>
+<nav class="tabbar"><div class="in">
+ <button class="tb" data-v="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Главная</button>
+ <button class="tb" data-v="catalog"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>Каталог</button>
+ <button class="tb" data-v="faq"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17h.01"/></svg>Вопросы</button>
+ <button class="tb" data-v="buy"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Купить</button>
+</div></nav>
+<div class="ov" id="ov"><div class="sheet" id="sheet">
+ <h3>Напишите мне</h3><p class="lead" style="font-size:14.5px">Отвечу на вопросы по таблицам и помогу выбрать направление.</p>
+ <a class="cbtn wa" id="cWa" href="#">WhatsApp</a><a class="cbtn tg" id="cTg" href="#">Telegram</a><a class="cbtn mx" id="cMx" href="#">MAX</a>
+ <div class="foot" id="ph"></div><button class="btn o block" id="closeSheet">Закрыть</button>
+</div></div>
+<div class="toast" id="toast"></div>
 <script>
-// ====== НАСТРОЙКИ ======
-var BUY_URL = "https://t.me/Kozlov_Ander?text=Здравствуйте%21%20Хочу%20купить%20набор%20за%201490%20рублей";          // ссылка на оплату в Prodamus (вставьте свою)
-var CONTACT_URL = "https://t.me/Kozlov_Ander";       // ссылка «Написать мне»
-// =======================
-var DATA = {"work1": [{"t": "Электрика", "items": [["Установка механизма конечного (выключатель, розетка 220в)", "шт.", 700], ["Установка информационной розетки (IN, TEL, TV)", "шт.", 1000], ["Установка терморегулятора", "шт.", 1100], ["Установка люстры (без сборки)", "шт.", 2500], ["Прямое подключение духового шкафа", "шт.", 2000]]}, {"t": "Сантехника", "items": [["Монтаж инсталляции унитаза", "шт.", 6000], ["Разводка водоснабжения по точкам (ХВС и ГВС), за точку", "точка", 3500], ["Монтаж канализационной трубы Ø50 мм", "пог.м", 500], ["Опрессовка системы водоснабжения", "система", 2500], ["Установка смесителя", "шт.", 1500]]}, {"t": "Выезд и мелкий ремонт", "items": [["Разовый выезд мастера", "шт.", 1500], ["Почасовая работа мастера", "час", 1500], ["Навеска полки / картины / зеркала (стандарт)", "шт.", 800], ["Монтаж карниза", "шт.", 1200]]}], "work2": [{"t": "Плитка", "items": [["Демонтаж плитки с пола", "м²", 600], ["Выравнивание пола цементно-песчаной стяжкой", "м²", 800], ["Грунтование пола / стен", "м²", 80], ["Обмазочная гидроизоляция (однокомпонентная)", "м²", 450]]}, {"t": "Отделка", "items": [["Штукатурка стен по маякам (до 30 мм)", "м²", 650], ["Шпаклёвка стен под покраску (финишная)", "м²", 500], ["Грунтование стен", "м²", 80], ["Монтаж подвесного потолка из ГКЛ (1 уровень)", "м²", 900], ["Обшивка стен гипсокартоном по каркасу", "м²", 900]]}], "mat": [{"t": "Электрика", "items": [["Кабель силовой ВВГнг(А)-LS 3х1.5", "пог.м", 81], ["Автоматический выключатель 1P C 10A", "шт.", 530], ["Клемма 3x(0,5-2.5) кв.мм с пастой", "шт.", 33]]}, {"t": "Сантехника", "items": [["Труба PPR PN20 20 мм", "пог.м", 55], ["Кран шаровый PPR 20 мм", "шт.", 260], ["Сифон для раковины бутылочный", "шт.", 520]]}, {"t": "Плитка и отделка", "items": [["Клей плиточный стандартный 25 кг", "мешок", 420], ["Грунтовка глубокого проникновения 10 л", "шт.", 900], ["Гипсокартон стеновой 12,5 мм (2500×1200)", "лист", 480], ["Краска водно-дисперсионная для стен и потолков, 9 л", "шт.", 3400]]}, {"t": "Крепёж и расходники", "items": [["Дюбель-гвоздь 6×40 (уп. 100 шт.)", "уп.", 250], ["Герметик силиконовый санитарный", "шт.", 420], ["Малярный скотч 48 мм × 50 м", "шт.", 150]]}]};
-var tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
-try{ if(tg){ tg.ready(); tg.expand(); } }catch(e){}
-var S = {tab:'calc', mode:1, cat:'work1', q:'', q1:{}, q2:{}, sur:0, disc:0, markup:0};
-var money = function(n){ return Math.round(n).toLocaleString('ru-RU').replace(/ /g,' ') + ' ₽'; };
-var esc = function(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]}); };
-function key(c,i,j){ return c+'|'+i+'|'+j; }
-function qty(m,k){ return (m===1?S.q1:S.q2)[k]||0; }
-function setQty(m,k,v){ v=Math.max(0,Math.min(999,Math.floor(v)||0)); var o=(m===1?S.q1:S.q2); if(v) o[k]=v; else delete o[k]; }
-function price(c,it){ return c==='mat' ? Math.round(it[2]*(1+S.markup/100)) : it[2]; }
-function haptic(){ try{ tg && tg.HapticFeedback && tg.HapticFeedback.selectionChanged(); }catch(e){} }
+var P={"elektrika": {"n": "Электрика", "ico": "bolt", "lead": "Монтаж, замена и подключение: от розеток до щитов. Два прайса, черновой и чистовой монтаж.", "works": "более 200 работ", "mats": "более 340 материалов", "sheets": ["Чистовой монтаж", "Черновой монтаж"], "sec": ["Установочные изделия", "Осветительные элементы", "Техника и оборудование", "Подготовительные работы", "Штробление и сверление", "Электрощиты: навесные и со штроблением в бетоне, кирпиче, пеноблоке", "Распределительные коробки и соединения", "Прокладка кабеля, в том числе открытая в трубах (лофт)", "Проводка в брусе и бревне, ретро-проводка", "Диагностика и ремонт проводки", "Заземление", "Сборка электрощита"], "who": "электриков"}, "santehnika": {"n": "Сантехника", "ico": "drop", "lead": "Разводка, установка сантехники, счётчики и испытания. Два прайса, черновой и чистовой монтаж.", "works": "почти 100 работ", "mats": "более 100 материалов", "sheets": ["Черновой монтаж", "Чистовой монтаж"], "sec": ["Подготовительные работы", "Демонтаж", "Штробление и сверление", "Водоснабжение (ХВС и ГВС)", "Канализация", "Монтаж инсталляций", "Испытания", "Унитазы, биде, писсуары", "Раковины, мойки, смесители", "Ванны и душевые", "Водонагреватели и полотенцесушители", "Бытовая техника", "Счётчики, фильтры и водоподготовка", "Ремонт и аварийные работы"], "who": "сантехников"}, "plitka": {"n": "Плиточные работы", "ico": "tile", "lead": "Подготовка основания и укладка плитки. Два прайса: подготовка и укладка.", "works": "более 50 работ", "mats": "почти 50 материалов", "sheets": ["Подготовка", "Укладка"], "sec": ["Подготовительные работы", "Демонтаж", "Выравнивание основания", "Грунтование и гидроизоляция", "Укладка плитки на пол", "Облицовка стен", "Крупноформатная плитка", "Затирка и швы", "Резка и подрезка", "Доборные элементы", "Ремонт и прочие работы"], "who": "плиточников"}, "otdelka": {"n": "Отделочные работы", "ico": "roller", "lead": "Черновая и чистовая отделка помещений. Два прайса: черновая и чистовая отделка.", "works": "более 50 работ", "mats": "почти 50 материалов", "sheets": ["Черновая отделка", "Чистовая отделка"], "sec": ["Подготовительные работы", "Демонтаж и подготовка основания", "Штукатурные работы", "Шпаклёвка", "Грунтование", "Гипсокартон", "Покраска стен и потолков", "Поклейка обоев", "Декоративные покрытия", "Потолочный и стеновой декор", "Полы и плинтусы", "Ремонт и прочие работы"], "who": "отделочников"}, "master": {"n": "Мастер на час", "ico": "hammer", "lead": "Ремонт и навеска, сборка и установка. Для мелких заказов, где нужен быстрый расчёт на месте.", "works": "почти 60 работ", "mats": "более 60 материалов", "sheets": ["Ремонт и навеска", "Сборка и установка"], "sec": ["Тарифы и выезд", "Навеска и крепёж", "Двери, замки, окна", "Прочий мелкий ремонт", "Сборка мебели", "Кухня и бытовая техника", "Мелкая электрика", "Мелкая сантехника", "Полы и плинтус"], "who": "мастеров на час"}, "komnaty": {"n": "Плитка по комнатам", "ico": "rooms", "lead": "Для плиточников, которые считают объект по комнатам. Общий прайс, до шести комнат на отдельных вкладках, общая смета и акт.", "works": "более 50 работ", "mats": "почти 50 материалов", "sheets": ["Общий прайс", "Комнаты 1–6"], "sec": ["Подготовительные работы", "Демонтаж", "Выравнивание основания", "Грунтование и гидроизоляция", "Укладка плитки на пол", "Облицовка стен", "Крупноформатная плитка", "Затирка и швы", "Доборные элементы"], "who": "плиточников, которые считают по комнатам"}, "krovlya": {"n": "Кровельные работы", "ico": "roof", "lead": "Перекрытие, стропильная система, кровельное покрытие и водосток. Четыре прайса по этапам работ.", "works": "60 работ", "mats": "50 материалов", "sheets": ["Перекрытие", "Крыша", "Кровельное покрытие", "Дополнительные работы"], "sec": ["Перекрытие и утепление", "Демонтаж и подготовка", "Стропильная система", "Основание под покрытие", "Фальцевая кровля", "Планки и доборные элементы", "Коньки, проходки, вентиляция", "Водосток", "Свесы и софиты"], "who": "кровельщиков"}, "potolki": {"n": "Потолочные работы", "ico": "ceil", "lead": "Натяжные потолки: полотна, профили, светильники, закладные, ниши и карнизы. Один большой прайс и материалы.", "works": "более 240 работ", "mats": "более 140 материалов", "sheets": ["Услуги", "Материалы"], "sec": ["Полотна", "Профили, углы, переходы", "Светильники и закладные", "Трековое освещение", "Ниши, карнизы, шторки", "Вентиляция и люки", "Организация, выезд, логистика", "Демонтаж старых потолков"], "who": "потолочников"}, "potolki6": {"n": "Потолки по типам", "ico": "layers", "lead": "Те же потолочные работы, разложенные по шести вкладкам: ПВХ, ткань, световые потолки, освещение, ниши и карнизы.", "works": "более 240 работ", "mats": "150 материалов", "sheets": ["Общие работы", "ПВХ потолки", "Тканевые потолки", "Световые потолки", "Освещение и закладные", "Ниши и карнизы"], "sec": ["Организация и доп. условия", "Полотна ПВХ", "Тканевые полотна", "Световые потолки и линии", "Светильники и закладные", "Трековое освещение", "Ниши и карнизы", "Вентиляция и люки"], "who": "потолочников, которые считают по типам потолков"}, "combo": {"n": "Электрика + Сантехника", "ico": "combo", "lead": "Одна таблица для тех, кто делает и электрику, и сантехнику. Два прайса, общая смета и общий акт.", "works": "более 300 работ", "mats": "450 материалов", "sheets": ["Электрика", "Сантехника"], "sec": ["Электрика: черновой и чистовой монтаж", "Сантехника: черновой и чистовой монтаж", "Материалы отдельно по каждому направлению"], "who": "мастеров, которые совмещают направления"}, "gkl": {"n": "Гипсокартон и перегородки", "ico": "price", "lead": "Перегородки и обшивка стен, потолки в несколько уровней, короба, арки, ниши, звукоизоляция и шпаклёвка под покраску. Прайс и материалы в одном файле.", "works": "более 150 работ", "mats": "более 80 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Подготовка, замеры и организация", "Каркас перегородок из профиля", "Обшивка стен гипсокартоном", "Потолки из гипсокартона", "Короба, ниши, арки, декоративные элементы", "Скрытые люки и ревизии", "Шумоизоляция и огнезащита", "Утепление и пароизоляция (мансарды, стены)", "Стыки, шпаклёвка и подготовка под отделку", "Пазогребневые перегородки (ПГП)", "Перегородки из блоков и других материалов", "Двери, проёмы, примыкания", "Сложные условия и дополнительные работы"], "who": "монтажников гипсокартона"}, "poly": {"n": "Полы", "ico": "price", "lead": "Демонтаж, стяжка и наливные полы, гидро- и шумоизоляция, ламинат, паркет, кварцвинил, линолеум, плинтусы и пороги.", "works": "более 150 работ", "mats": "более 100 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, замеры, организация", "Демонтаж старых покрытий", "Подготовка основания", "Стяжка и выравнивание", "Гидроизоляция, звукоизоляция, утепление", "Лаги, черновые полы, деревянные основания", "Ламинат и подложки", "Паркет, доска, массив", "ПВХ-плитка, кварцвинил, линолеум, ковролин", "Плинтусы, пороги, примыкания", "Тёплый пол (подготовка под покрытие)", "Шлифовка, полировка, финишная отделка бетонного пола", "Сложные условия и дополнительные работы"], "who": "мастеров по полам"}, "malyar": {"n": "Малярные работы", "ico": "price", "lead": "Подготовка и шпаклёвка, покраска стен и потолков, обои, декоративные штукатурки, микроцемент, покраска дерева, металла и фасадов.", "works": "более 160 работ", "mats": "более 120 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, замеры, защита", "Подготовка основания под покраску", "Грунтование", "Шпаклёвка стен и потолков", "Покраска стен и потолков", "Обои и стеклообои", "Декоративные штукатурки и покрытия", "Покраска дерева и металла", "Покраска фасадов и заборов", "Ремонт и реставрация покрытий", "Сложные условия и дополнительные работы"], "who": "маляров"}, "shtuk": {"n": "Штукатурка и стяжка", "ico": "price", "lead": "Гипсовая и цементная штукатурка, маяки, откосы и углы, декоративная штукатурка, стяжки пола и наливные полы, фасадные работы.", "works": "более 150 работ", "mats": "более 100 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, замеры, организация", "Подготовка основания под штукатурку", "Установка маяков и выравнивание", "Штукатурка стен (гипсовая)", "Штукатурка стен (цементная, цементно-песчаная)", "Штукатурка потолков", "Откосы, углы, арки", "Декоративная штукатурка", "Шпаклёвка после штукатурки", "Стяжка пола цементно-песчаная", "Стяжка полусухая и механизированная", "Наливной пол и самонивелиры", "Гидро-, шумо- и теплоизоляция", "Фасадная штукатурка и «мокрый» фасад", "Ремонт и дополнительные работы", "Сложные условия и дополнительные работы"], "who": "штукатуров и мастеров по стяжке"}, "okna": {"n": "Окна", "ico": "price", "lead": "Демонтаж и монтаж окон, балконные блоки, остекление лоджий, откосы, подоконники, москитные сетки, жалюзи, ремонт и регулировка.", "works": "более 170 работ", "mats": "более 100 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, замеры, организация", "Демонтаж старых окон", "Монтаж ПВХ-окон", "Монтаж алюминиевых окон и витражей", "Балконные блоки и двери", "Остекление балконов и лоджий", "Откосы", "Подоконники и отливы", "Москитные сетки", "Жалюзи, шторы, карнизы", "Ремонт, регулировка, обслуживание", "Утепление и герметизация", "Сложные условия и дополнительные работы"], "who": "монтажников окон"}, "demontazh": {"n": "Демонтаж и вывоз мусора", "ico": "price", "lead": "Демонтаж стен и перегородок, полов, потолков, плитки, окон, сантехники, подъём, вынос, погрузка и вывоз мусора.", "works": "более 190 работ", "mats": "более 60 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, замеры, подготовка", "Демонтаж стен и перегородок", "Демонтаж полов", "Демонтаж потолков", "Демонтаж плитки и облицовки", "Демонтаж окон, дверей, остекления", "Демонтаж сантехники, отопления, коммуникаций", "Демонтаж электрики", "Демонтаж кухни, мебели, встроенных элементов", "Наружный демонтаж", "Подъём, вынос, погрузка", "Вывоз и утилизация мусора", "Дополнительные работы"], "who": "бригад по демонтажу"}, "fasad": {"n": "Фасад и забор", "ico": "price", "lead": "Утепление и отделка фасада, сайдинг, вентфасад, отмостка, заборы из профнастила, дерева, кирпича, ворота, калитки и автоматика.", "works": "более 220 работ", "mats": "более 100 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, замеры, организация", "Подготовка фасада и очистка", "Утепление фасада («мокрый» фасад)", "Штукатурка фасада", "Вентилируемый фасад и обшивка", "Цоколь, отмостка, водоотвод", "Заборы из профнастила и металлических листов", "Заборы из дерева, сетки, секций", "Кирпичные, блочные и комбинированные заборы", "Кованые и металлические заборы", "Ворота и калитки", "Электрика, освещение, видеонаблюдение", "Подготовка территории и земляные работы", "Демонтаж, ремонт, обслуживание", "Сложные условия и дополнительные работы"], "who": "фасадчиков и монтажников заборов"}, "slabo": {"n": "Слаботочка", "ico": "price", "lead": "Локальная сеть и Wi-Fi, телевидение, домофоны, видеонаблюдение, охранная и пожарная сигнализация, СКУД, аудио и умный дом.", "works": "более 230 работ", "mats": "более 170 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, проектирование, замеры", "Кабельные трассы и штробление", "Локальная сеть (СКС) и Wi-Fi", "Интернет, телефония, мобильная связь", "ТВ и антенны", "Домофония и вызывные панели", "Видеонаблюдение", "Охранная сигнализация", "Пожарная сигнализация и безопасность", "СКУД и контроль доступа", "Аудио, мультирум, кинотеатр", "Умный дом (базовый)", "Слаботочный щит и питание", "Настройка, пусконаладка, обслуживание", "Сложные условия и дополнительные работы"], "who": "монтажников слаботочных систем"}, "pk": {"n": "Ремонт ПК", "ico": "price", "lead": "Диагностика и чистка, апгрейд, сборка ПК, установка Windows, вирусы, восстановление данных, ремонт ноутбуков, принтеры и сети.", "works": "более 270 работ", "mats": "более 110 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд и диагностика", "Чистка и профилактика ПК", "Апгрейд и замена комплектующих (работа)", "Сборка компьютеров", "Windows, Linux, macOS", "Программы, драйверы, настройка", "Вирусы и безопасность", "Данные, резервные копии, восстановление", "Ремонт ноутбуков", "Мониторы, моноблоки, периферия", "Принтеры, МФУ, сканеры", "Сеть, Wi-Fi, интернет", "Консоли, умная техника, телефоны", "Обслуживание, удалённая помощь, абонемент", "Сложные условия и дополнительные работы"], "who": "компьютерных мастеров"}, "otoplenie": {"n": "Отопление", "ico": "price", "lead": "Радиаторы и конвекторы, трубопроводы, коллекторы, котельная, насосы и бойлеры, автоматика, водяной тёплый пол, промывка и опрессовка.", "works": "более 210 работ", "mats": "более 150 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, проект, замеры", "Демонтаж", "Радиаторы и конвекторы", "Трубопроводы отопления", "Коллекторы и распределительные узлы", "Котельная: газовые котлы", "Электрические и твердотопливные котлы", "Насосы, баки, бойлеры", "Автоматика и погодозависимое управление", "Водяной тёплый пол", "Промывка, опрессовка, запуск", "Обслуживание и ремонт", "Сложные условия и дополнительные работы"], "who": "специалистов по отоплению"}, "tpol": {"n": "Тёплые полы", "ico": "price", "lead": "Электрические маты, кабель и плёнка, водяной тёплый пол, коллекторы, терморегуляторы, подключение, пусконаладка, обогрев труб и кровли.", "works": "более 150 работ", "mats": "более 100 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, расчёт, проект", "Демонтаж и подготовка основания", "Электрический тёплый пол: нагревательный мат", "Электрический тёплый пол: греющий кабель", "Инфракрасная плёнка", "Водяной тёплый пол: подготовка и монтаж", "Стяжка и опрессовка", "Терморегуляторы, датчики, автоматика", "Электрика и подключение", "Пусконаладка, испытания, документация", "Ремонт и диагностика", "Обогрев труб, кровли, ступеней", "Сложные условия и дополнительные работы"], "who": "мастеров по тёплым полам"}, "fund": {"n": "Фундамент и земляные работы", "ico": "price", "lead": "Геодезия и разметка, земляные работы, ленточные, плитные и свайные фундаменты, гидроизоляция, дренаж, септики и благоустройство.", "works": "более 260 работ", "mats": "более 120 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, геодезия, разметка", "Расчистка и подготовка участка", "Земляные работы (котлован, траншеи)", "Основания: подушки и подготовка", "Ленточный фундамент", "Монолитная плита и УШП", "Свайные и винтовые фундаменты", "Столбчатые и малые фундаменты", "Опалубка и армирование (отдельные работы)", "Бетонирование и уход", "Гидроизоляция и теплоизоляция фундамента", "Подвалы, погреба, цоколи", "Дренаж, ливневка, отмостка", "Коммуникации: септик, колодец, скважина", "Благоустройство участка", "Сложные условия и дополнительные работы"], "who": "строителей"}, "karkas": {"n": "Каркасное строительство", "ico": "price", "lead": "Обвязка и пол, каркас стен, перекрытия, стропила и кровля, утепление, фасад, окна и двери, внутренняя отделка, террасы, бани.", "works": "более 230 работ", "mats": "более 130 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд, проект, организация", "Основание и нижняя обвязка", "Каркас стен", "Перекрытия и мансарда", "Стропильная система и кровля", "Утепление и пароизоляция стен", "Наружная обшивка и фасад", "Окна и двери", "Внутренняя отделка", "Лестницы, террасы, веранды, крыльцо", "Бани, хозблоки, гаражи", "Инженерные системы", "SIP-панели и фахверк", "Усадка, обслуживание и ремонт", "Сложные условия и дополнительные работы"], "who": "строителей каркасных домов"}, "melkiy": {"n": "Мелкий бытовой ремонт", "ico": "price", "lead": "Двери и замки, навеска, мелкая сантехника и электрика, окна, ремонт мебели, локальный ремонт стен и полов, подключение техники.", "works": "более 270 работ", "mats": "более 170 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд и вызов мастера", "Двери и замки", "Навеска и крепёж", "Мелкая сантехника", "Мелкая электрика", "Окна и балконы", "Ремонт мебели", "Стены, потолки, полы (локальный ремонт)", "Плитка, обои, покраска (мелкие работы)", "Бытовая техника: подключение и установка", "Сборка, разборка, уборка, мелкие услуги", "Комплексные заявки"], "who": "мастеров по мелкому ремонту"}, "mebel": {"n": "Сборка мебели", "ico": "price", "lead": "Шкафы и купе, кровати, диваны, столы, кухни, мебель для ванной, детская и офисная мебель, IKEA, навеска, разборка и ремонт.", "works": "более 260 работ", "mats": "более 130 материалов", "sheets": ["Единый прайс: работы и материалы"], "sec": ["Выезд и подготовка", "Шкафы и гардеробные", "Шкафы-купе", "Кровати и матрасы", "Диваны, кресла, пуфы", "Столы, стулья", "Комоды, тумбы, стеллажи, полки", "Кухни", "Мебель для ванной", "Детская мебель", "Офисная мебель", "Уличная и садовая мебель", "Мебель IKEA и сетевых магазинов", "Навеска, подгонка, регулировка", "Разборка, перевозка, утилизация", "Ремонт и реставрация мебели", "Дополнительные услуги"], "who": "сборщиков мебели"}};
+var GR={"elektrika":"Инженерные системы","santehnika":"Инженерные системы","combo":"Инженерные системы","slabo":"Инженерные системы","otoplenie":"Инженерные системы","tpol":"Инженерные системы","plitka":"Отделка","komnaty":"Отделка","otdelka":"Отделка","potolki":"Отделка","potolki6":"Отделка","gkl":"Отделка","poly":"Отделка","malyar":"Отделка","shtuk":"Отделка","okna":"Отделка","krovlya":"Строительство","demontazh":"Строительство","fasad":"Строительство","fund":"Строительство","karkas":"Строительство","master":"Сервис и сборка","pk":"Сервис и сборка","melkiy":"Сервис и сборка","mebel":"Сервис и сборка"};
+var ORDER=Object.keys(GR);
+var GROUPS=['Инженерные системы','Отделка','Строительство','Сервис и сборка'];
+/* ===== НАСТРОЙКИ (те же, что на сайте) ===== */
+var PAY='https://link.payform.ru/?paymentLinkId=0405d655-c472-477a-9b75-4cbfbf2f675b';
+var PRICE={now:1990,promo:1490};
+var PROMO={on:true,code:'MASTER500',off:500,left:19}; /* left обновляется вручную по реальным продажам */
+var CONTACTS={wa:'https://wa.me/79822069375',tg:'https://t.me/Kozlov_Ander',max:'https://max.ru/u/f9LHodD0cOIiMp48uDSHYmT1loMaqalzVBb68QA-3nTWy5MKGPsk7VvbRoE',phone:'+7 982 206-93-75'};
+/* ========================================= */
+var SH=[['Прайс работ','Здесь вы вписываете свои расценки и объём. Жёлтые ячейки для ввода, остальное считается само.'],['Прайс для клиента','Собирается из вашего прайса. Без количества, готов к печати или отправке в PDF.'],['Смета','Работы и материалы с итогами. Надбавка за сложность и скидка включаются по желанию.'],['Допсоглашение','Допработы идут отдельным листом: основной договор не пересчитывается.'],['Акт','Собирается из сметы и допсоглашения. Количество можно поправить прямо в акте.'],['Материалы','Список материалов с ценой закупки. Наценка на материалы задаётся одной ячейкой.']];
+var FAQ=[
+['Зачем покупать все таблицы, если мне нужна одна?','Вы платите один раз и получаете один архив со всеми таблицами. Берёте ту, что нужна для вашей работы. Остальные тоже ваши, пригодятся, если расширите направления.'],
+['Что я получу после оплаты?','Один архив (ZIP) с файлами: все таблицы Excel, документы и видеоинструкции. Скачиваете его и пользуетесь. Файлы остаются у вас навсегда, срока нет.'],
+['В чём открывать таблицы?','Таблицы сделаны для Microsoft Excel и открываются на компьютере и в мобильном приложении Excel.'],
+['Можно менять цены и названия работ?','Да. Прайс полностью ваш: впишите свои расценки, поменяйте названия, добавьте свои позиции. Жёлтые ячейки предназначены для ввода.'],
+['Как считается смета?','Вы указываете объём в прайсе, и позиция сама попадает в смету, допсоглашение и акт. Итоги, надбавка за сложность и скидка считаются автоматически. Надбавка и скидка действуют только на работы, на материалы нет.'],
+['Что такое допсоглашение в таблице?','Это отдельный лист для дополнительных работ. Если по ходу объекта появились новые работы, впишите их в соседний столбец прайса. Они попадут в допсоглашение, а основной договор останется прежним.'],
+['Можно ли оформить акт по этапам?','В таблице «Электрика + Сантехника» есть выбор: акт по всем работам или отдельно по одному разделу. Так удобно, если заказчик принимает электрику и сантехнику в разное время.'],
+['Сколько позиций поместится в смету?','Для обычного заказа хватает с запасом. Если строк всё же не хватает, их можно добавить копированием, как описано в инструкции внутри файла.'],
+['Можно ли перепродавать или передавать таблицы?','Нет. Таблицы предназначены для вашей работы с клиентами. В каждый файл вшита подпись автора, и если её удалить, таблица перестанет считать.'],
+['Мне нужна другая специальность','В архиве есть пустые шаблоны для самостоятельного заполнения, а если нужна готовая таблица под вашу сферу, напишите мне.']
+];
+var TGW=(window.Telegram&&Telegram.WebApp&&Telegram.WebApp.platform&&Telegram.WebApp.platform!=='unknown')?Telegram.WebApp:null;
+var W=TGW||window.WebApp||null; /* Telegram, если открыто в Telegram; иначе MAX */
+function $(s,e){return (e||document).querySelector(s);}
+function rub(n){return n.toLocaleString('ru-RU')+' ₽';}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function hap(){try{W&&W.HapticFeedback&&W.HapticFeedback.selectionChanged(true);}catch(e){}}
+function toast(t){var e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove('on');},1800);}
+function openExt(u){hap();try{if(W&&W.openLink){W.openLink(u);return;}}catch(e){}window.open(u,'_blank');}
+function openMax(u){hap();try{if(!TGW&&W&&W.openMaxLink){W.openMaxLink(u);return;}}catch(e){}openExt(u);}
+function openTg(u){hap();try{if(TGW&&TGW.openTelegramLink){TGW.openTelegramLink(u);return;}}catch(e){}openExt(u);}
+function num(s){var m=/(более|почти)?\s*(\d+)/.exec(s)||[];return {p:m[1]||'',n:m[2]||''};}
+function priceBlock(small){
+ if(!PROMO.on||PROMO.left<1)return '<div class="price"><b>'+rub(PRICE.now)+'</b><small>'+small+'</small></div>';
+ return '<div class="price"><b>'+rub(PRICE.promo)+'</b><small><s>'+rub(PRICE.now)+'</s> без промокода · '+small+'</small></div>'+
+ '<div class="promo"><div><span>Промокод</span><b>'+PROMO.code+'</b><em>Осталось '+PROMO.left+' мест по промокоду</em></div><button class="btn s sun" data-copy="'+PROMO.code+'">Копировать</button></div>';
+}
+function buyBtn(label,cls){return '<button class="btn block '+(cls||'')+'" data-pay>'+(label||'Купить')+'</button>';}
+function faqHtml(n){return FAQ.slice(0,n||FAQ.length).map(function(q){return '<details><summary>'+q[0]+'</summary><div class="a">'+q[1]+'</div></details>';}).join('');}
+function rowHtml(k){var p=P[k],w=num(p.works),m=num(p.mats);
+ return '<div class="row" data-t="'+k+'"><div class="ic"><img src="img/ico-'+p.ico+'.webp" alt=""></div><div><b>'+p.n+'</b><small>'+(w.p?w.p+' ':'')+w.n+' работ · '+(m.p?m.p+' ':'')+m.n+' материалов</small></div><span class="ch">›</span></div>';}
 
-function collect(mode){
-  var works=[], mats=[];
-  ['work1','work2'].forEach(function(c){ DATA[c].forEach(function(s,i){ s.items.forEach(function(it,j){ var q=qty(mode,key(c,i,j)); if(q) works.push({n:it[0],u:it[1],q:q,p:it[2]}); }); }); });
-  DATA.mat.forEach(function(s,i){ s.items.forEach(function(it,j){ var q=qty(mode,key('mat',i,j)); if(q) mats.push({n:it[0],u:it[1],q:q,p:price('mat',it)}); }); });
-  return {works:works,mats:mats};
+var V={};
+V.home=function(){return ''+
+'<section class="hero"><div class="pad"><div class="txt"><div class="eyebrow">Таблицы Excel для мастеров</div>'+
+'<h1>Смета, допсоглашение и акт в одной таблице</h1>'+
+'<p class="lead">25 направлений: электрика, сантехника, отделка, кровля, строительство, мастер на час и другие. Впишите объём работ, остальное посчитается само.</p>'+
+'<div class="cta"><button class="btn block" data-v="catalog">Выбрать таблицу</button>'+buyBtn('Купить за '+rub(PROMO.on&&PROMO.left>0?PRICE.promo:PRICE.now),'o')+'</div>'+
+'<div class="facts"><span>25 таблиц</span><span>6 листов в каждой</span><span>один архив с файлами</span></div></div>'+
+'<figure><img src="img/hero.webp" alt="Таблица Excel: смета, прайс и акт" width="900" height="600"></figure></div></section>'+
+'<section class="band"><div class="pad"><div class="head"><div class="eyebrow">Как это работает</div><h2>Четыре шага до акта</h2></div><div class="steps">'+
+'<div class="step"><i>1</i><div><b>Прайс</b><span>Впишите свои расценки. Жёлтые ячейки для ввода.</span></div></div>'+
+'<div class="step"><i>2</i><div><b>Смета</b><span>Впишите объём: работы и материалы подтянутся, итоги посчитаются.</span></div></div>'+
+'<div class="step"><i>3</i><div><b>Допсоглашение</b><span>Новые работы по ходу объекта идут отдельным листом.</span></div></div>'+
+'<div class="step"><i>4</i><div><b>Акт</b><span>Собирается из сметы и допсоглашения. Печать или PDF.</span></div></div></div></div></section>'+
+'<section class="band alt"><div class="pad"><div class="head"><div class="eyebrow">Что в архиве</div><h2>Один архив со всем</h2></div>'+
+'<table class="tbl"><tr><th>Что</th><th class="c">Шт.</th></tr><tr><td><b>Таблицы Excel</b><br><small>прайс, смета, допсоглашение, акт</small></td><td class="c">25</td></tr>'+
+'<tr><td><b>Договоры подряда</b><br><small>самозанятый и ИП, физлицо и организация</small></td><td class="c">4</td></tr>'+
+'<tr><td><b>Расписки</b><br><small>на аванс и на материалы</small></td><td class="c">2</td></tr>'+
+'<tr><td><b>Видеоинструкции</b></td><td class="c">2</td></tr><tr><td><b>Пустые шаблоны</b><br><small>для ваших услуг</small></td><td class="c">9</td></tr></table></div></section>'+
+'<section class="band sage"><div class="pad"><div class="head"><div class="eyebrow">Цена</div><h2>Один платёж, без подписки</h2></div><div class="card">'+priceBlock('все 25 таблиц и документы')+'<div style="height:14px"></div>'+buyBtn('Купить')+'</div></div></section>'+
+'<section class="band"><div class="pad"><div class="head"><div class="eyebrow">Вопросы</div><h2>Частые вопросы</h2></div>'+faqHtml(4)+'<button class="btn o block" data-v="faq" style="margin-top:6px">Все вопросы</button></div></section>';};
+
+V.catalog=function(){var h='<section class="band"><div class="pad"><div class="head"><div class="eyebrow">Каталог</div><h2>Все таблицы для мастеров</h2><p class="lead">25 таблиц по направлениям. В каждой прайс, смета, допсоглашение и акт.</p></div>'+
+'<input class="search" id="q" placeholder="Найти таблицу: полы, окна, отопление" autocomplete="off"><div class="chips" id="fc"><button class="fchip" data-g="" aria-pressed="true">Все</button>'+GROUPS.map(function(g){return '<button class="fchip" data-g="'+g+'" aria-pressed="false">'+g+'</button>';}).join('')+'</div><div id="lst"></div><div class="none" id="none" hidden>Ничего не нашлось. Напишите мне, подберу или сделаю таблицу под вашу работу.</div></div></section>';return h;};
+V.catalog.after=function(){var g='',q=$('#q');function draw(){var t=q.value.trim().toLowerCase(),out='',n=0;GROUPS.forEach(function(gr){if(g&&g!==gr)return;var items=ORDER.filter(function(k){return GR[k]===gr&&(!t||P[k].n.toLowerCase().indexOf(t)>-1||P[k].sec.join(' ').toLowerCase().indexOf(t)>-1);});if(!items.length)return;n+=items.length;out+='<div class="gtitle">'+gr+' · '+items.length+'</div><div class="list">'+items.map(rowHtml).join('')+'</div>';});$('#lst').innerHTML=out;$('#none').hidden=n>0;}
+ q.addEventListener('input',draw);[].forEach.call(document.querySelectorAll('#fc .fchip'),function(b){b.addEventListener('click',function(){g=b.getAttribute('data-g');[].forEach.call(document.querySelectorAll('#fc .fchip'),function(x){x.setAttribute('aria-pressed',x===b);});hap();draw();});});draw();};
+
+V.table=function(k){var p=P[k],w=num(p.works),m=num(p.mats);
+ return '<section class="hero"><div class="pad"><div class="txt"><div class="eyebrow">'+GR[k]+'</div><h1 style="font-size:24px">'+p.n+'</h1><p class="lead">'+p.lead+'</p></div></div></section>'+
+ '<section class="band"><div class="pad"><div class="nums"><div class="num"><small>'+(w.p||'работ')+'</small><b>'+w.n+'</b><span>работ</span></div><div class="num"><small>'+(m.p||'материалов')+'</small><b>'+m.n+'</b><span>материалов</span></div></div></div></section>'+
+ '<section class="band alt"><div class="pad"><div class="head"><div class="eyebrow">Листы таблицы</div><h2>Как это выглядит</h2></div><div class="vtabs" id="vt">'+SH.map(function(s,i){return '<button class="vtab" data-i="'+i+'" aria-selected="'+(i==0)+'">'+s[0]+'</button>';}).join('')+'</div>'+
+ '<div class="shot"><div class="bar"><i></i><i></i><i></i><span id="vn" style="margin-left:6px"></span></div><img id="vi" src="img/'+k+'-1.webp" alt=""></div><p class="vcap" id="vc"></p></div></section>'+
+ '<section class="band"><div class="pad"><div class="head"><div class="eyebrow">Что в прайсе</div><h2>Разделы работ</h2></div><div class="sec">'+p.sec.map(function(s){return '<span>'+esc(s)+'</span>';}).join('')+'</div>'+
+ '<p class="lead" style="margin-top:14px;font-size:14.5px">'+(p.sheets.length>1?'Вкладки прайса: '+p.sheets.join(', ')+'. ':p.sheets[0]+'. ')+'Подходит для '+p.who+'.</p></div></section>'+
+ '<section class="band sage"><div class="pad"><div class="card"><div class="head" style="margin-bottom:12px"><h3>Эта таблица входит в архив из 25</h3></div>'+priceBlock('один платёж')+'<div style="height:14px"></div>'+buyBtn('Купить')+'<button class="btn o block" data-ask style="margin-top:10px">Спросить про эту таблицу</button></div></div></section>';};
+V.table.after=function(k){function show(i){$('#vi').src='img/'+k+'-'+(i+1)+'.webp';$('#vn').textContent=P[k].n+' · '+SH[i][0];$('#vc').textContent=SH[i][1];[].forEach.call(document.querySelectorAll('#vt .vtab'),function(b){b.setAttribute('aria-selected',+b.getAttribute('data-i')===i);});}
+ [].forEach.call(document.querySelectorAll('#vt .vtab'),function(b){b.addEventListener('click',function(){hap();show(+b.getAttribute('data-i'));});});show(0);};
+
+V.faq=function(){return '<section class="band"><div class="pad"><div class="head"><div class="eyebrow">Вопросы</div><h2>Частые вопросы</h2></div>'+faqHtml()+'<button class="btn block" data-ask style="margin-top:8px">Задать свой вопрос</button></div></section>';};
+V.buy=function(){return '<section class="hero"><div class="pad"><div class="txt"><div class="eyebrow">Покупка</div><h1 style="font-size:24px">Система смет и документов для мастера</h1></div></div></section>'+
+'<section class="band"><div class="pad"><div class="card">'+priceBlock('один платёж, без подписки')+'<div style="height:14px"></div>'+buyBtn('Купить')+'</div></div></section>'+
+'<section class="band alt"><div class="pad"><div class="head"><div class="eyebrow">Что входит</div><h2>В цену входит</h2></div><table class="tbl"><tr><th>В комплекте</th><th class="c">Есть</th></tr>'+
+'<tr><td>25 таблиц по направлениям</td><td class="c ck">✓</td></tr><tr><td>Смета, допсоглашение, акт в каждой</td><td class="c ck">✓</td></tr><tr><td>Договоры и расписки</td><td class="c ck">✓</td></tr><tr><td>Видеоинструкции</td><td class="c ck">✓</td></tr><tr><td>Пустые шаблоны для своих услуг</td><td class="c ck">✓</td></tr><tr><td>Подписка и ежемесячные платежи</td><td class="c" style="color:var(--muted)">нет</td></tr></table></div></section>'+
+'<section class="band"><div class="pad"><div class="head"><div class="eyebrow">Как это работает</div><h2>Три шага</h2></div><div class="steps">'+
+'<div class="step"><i>1</i><div><b>Нажмите «Купить»</b><span>Откроется страница оплаты.</span></div></div>'+
+'<div class="step"><i>2</i><div><b>Оплатите картой</b><span>Один платёж, подписки нет.</span></div></div>'+
+'<div class="step"><i>3</i><div><b>Скачайте архив</b><span>Ссылка на файл приходит сразу после оплаты.</span></div></div></div>'+
+'<button class="btn o block" data-ask style="margin-top:14px">Остались вопросы? Написать</button></div></section>';};
+
+var stack=['home'],cur='home',scrollPos={};
+function render(v,arg,push){
+ var root=$('#root');var fn=typeof v==='string'?V[v]:null;
+ if(!fn)return;
+ root.innerHTML=fn(arg);
+ if(fn.after)fn.after(arg);
+ cur=v;
+ [].forEach.call(document.querySelectorAll('.tb'),function(b){b.setAttribute('aria-current',b.getAttribute('data-v')===(v==='table'?'catalog':v));});
+ window.scrollTo(0,0);
+ syncBack();
 }
-function calc(mode){
-  var d=collect(mode), w=0, m=0;
-  d.works.forEach(function(x){ x.s=x.q*x.p; w+=x.s; });
-  d.mats.forEach(function(x){ x.s=x.q*x.p; m+=x.s; });
-  var sur=Math.round(w*S.sur/100), wsur=w+sur;
-  var disc=Math.min(Math.round(wsur*S.disc/100), wsur);
-  var total=wsur+m, final=total-disc;
-  return {works:d.works,mats:d.mats,w:w,m:m,sur:sur,wsur:wsur,disc:disc,total:total,final:final,count:d.works.length+d.mats.length};
-}
-function renderList(){
-  var c=S.cat, q=S.q.trim().toLowerCase(), html='', shown=0;
-  document.getElementById('hint').innerHTML = c==='mat'
-    ? 'Материалы считаются отдельным блоком. Для клиента цена = закупка + наценка. На материалы надбавка и скидка не действуют.'
-    : 'Нажмите «+» у нужной работы. Цены из прайса, их можно менять в таблице под себя.';
-  DATA[c].forEach(function(s,i){
-    var rows='';
-    s.items.forEach(function(it,j){
-      if(q && it[0].toLowerCase().indexOf(q)<0) return;
-      var k=key(c,i,j), v=qty(S.mode,k); shown++;
-      rows+='<div class="item'+(v?' on':'')+'"><div class="nm">'+esc(it[0])+'<div class="pr">'+money(price(c,it))+' / '+esc(it[1])+(v?' · '+money(v*price(c,it)):'')+'</div></div>'
-        +'<div class="step">'+(v?'<button class="m" data-a="-" data-k="'+k+'">−</button><input inputmode="numeric" data-k="'+k+'" value="'+v+'">':'')+'<button data-a="+" data-k="'+k+'">+</button></div></div>';
-    });
-    if(rows) html+='<div class="sec">'+esc(s.t)+'</div>'+rows;
-  });
-  if(c==='mat'){ html='<div class="ctl"><div class="lab">Наценка на материалы</div>'+[0,10,15,20].map(function(x){return '<button class="small'+(S.markup===x?' on':'')+'" data-mk="'+x+'">'+x+'%</button>';}).join('')+'</div>'+html; }
-  if(!shown) html+='<div class="empty">Ничего не найдено</div>';
-  document.getElementById('list').innerHTML=html;
-}
-function table(rows,startN){
-  var h='<table><tr><th style="width:8%">№</th><th>Наименование</th><th style="width:9%">Ед.</th><th style="width:9%">Кол</th><th style="width:16%">Цена</th><th style="width:17%">Сумма</th></tr>';
-  rows.forEach(function(x,i){ h+='<tr><td class="n">'+(startN+i)+'</td><td>'+esc(x.n)+'</td><td class="u">'+esc(x.u)+'</td><td class="q">'+x.q+'</td><td class="p">'+money(x.p)+'</td><td class="s">'+money(x.s)+'</td></tr>'; });
-  return h;
-}
-function docHtml(kind){
-  var r=calc(kind==='dop'?2:1);
-  var title = kind==='smeta'?'СМЕТА':(kind==='dop'?'ДОПОЛНИТЕЛЬНЫЕ РАБОТЫ':'АКТ ПРИЁМКИ-СДАЧИ РАБОТ');
-  var note = kind==='smeta'?'Приложение №1 к договору':(kind==='dop'?'Дополнительные работы и материалы к договору':'Подрядчик выполнил, а Заказчик принял следующие работы');
-  var ctl='';
-  if(kind!=='akt'){
-    ctl='<div class="ctl"><div class="lab">Надбавка за сложность (только на работы)</div>'+[0,10,15,20].map(function(x){return '<button class="small'+(S.sur===x?' on':'')+'" data-sur="'+x+'">'+x+'%</button>';}).join('')
-      +'<div class="lab">Скидка клиенту (только на работы)</div>'+[0,5,10].map(function(x){return '<button class="small'+(S.disc===x?' on':'')+'" data-disc="'+x+'">'+x+'%</button>';}).join('')+'</div>';
-  } else {
-    ctl='<div class="hint">В Акт попадают только выполненные работы: основные и дополнительные. Материалы в акт не входят.</div>';
-  }
-  if(kind==='akt'){
-    var a=calc(1), b=calc(2);
-    if(!a.works.length && !b.works.length) return ctl+'<div class="empty">Добавьте работы на вкладке «Позиции», и акт соберётся сам.</div>'+cta();
-    var h='<div class="doc"><div class="wm">ДЕМО · ПРИМЕР РАСЧЁТА</div><h2>'+title+'</h2><div class="sub">'+note+'</div>';
-    var n=1;
-    if(a.works.length){ h+=table(a.works,1)+'<tr class="tot"><td colspan="5">Итого по работам без надбавки</td><td class="s">'+money(a.w)+'</td></tr>';
-      if(S.sur) h+='<tr class="line"><td colspan="5">Надбавка за сложность ('+S.sur+'%)</td><td class="s">'+money(a.sur)+'</td></tr><tr class="tot"><td colspan="5">Итого с надбавкой</td><td class="s">'+money(a.wsur)+'</td></tr>';
-      if(S.disc) h+='<tr class="line"><td colspan="5">Скидка ('+S.disc+'%)</td><td class="s">−'+money(a.disc)+'</td></tr><tr class="tot"><td colspan="5">ИТОГО по основным работам</td><td class="s">'+money(a.wsur-a.disc)+'</td></tr>';
-      h+='</table>'; n=a.works.length+1; }
-    if(b.works.length){ h+='<div class="sub" style="margin-top:12px;font-weight:700;color:#1c222a">Дополнительные работы</div>'+table(b.works,1)+'<tr class="tot"><td colspan="5">Итого по дополнительным работам</td><td class="s">'+money(b.w)+'</td></tr></table>'; }
-    h+='</div>';
-    var tot=(a.works.length?a.wsur-a.disc:0)+(b.works.length?b.wsur-b.disc:0);
-    h+='<div class="final"><div class="a">Итого по акту</div><div class="b">'+money(tot)+'</div></div>';
-    return ctl+h+cta();
-  }
-  if(!r.count) return '<div class="empty">Добавьте позиции на вкладке «Позиции», и '+(kind==='smeta'?'смета соберётся сама':'допработы соберутся сами')+'.</div>'+cta();
-  var h='<div class="doc"><div class="wm">ДЕМО · ПРИМЕР РАСЧЁТА</div><h2>'+title+'</h2><div class="sub">'+note+'</div>';
-  var t='';
-  if(r.works.length){ t+=table(r.works,1)+'<tr class="tot"><td colspan="5">Итого по работам без надбавки</td><td class="s">'+money(r.w)+'</td></tr>';
-    if(S.sur) t+='<tr class="line"><td colspan="5">Надбавка за сложность ('+S.sur+'%)</td><td class="s">'+money(r.sur)+'</td></tr><tr class="tot"><td colspan="5">Итого по работам с надбавкой</td><td class="s">'+money(r.wsur)+'</td></tr>';
-    t+='</table>'; }
-  var n0=r.works.length;
-  if(r.mats.length){ t+='<div class="sub" style="margin-top:12px;font-weight:700;color:#1c222a">Материалы</div>'+table(r.mats,n0+1)+'<tr class="tot"><td colspan="5">Итого по материалам</td><td class="s">'+money(r.m)+'</td></tr></table>'; }
-  h+=t+'<table><tr class="tot"><td colspan="5">Итого по смете, без скидки</td><td class="s">'+money(r.total)+'</td></tr>';
-  if(S.disc) h+='<tr class="line"><td colspan="5">Скидка ('+S.disc+'%)</td><td class="s">−'+money(r.disc)+'</td></tr>';
-  h+='</table></div><div class="final"><div class="a">'+(S.disc?'ИТОГО со скидкой':'ИТОГО')+'</div><div class="b">'+money(r.final)+'</div></div>';
-  return ctl+h+cta();
-}
-function cta(){
-  return '<div class="cta"><h3>Такие документы — за пару минут</h3><p>В наборе 5 таблиц: электрика, сантехника, плитка, отделка и мастер на час. Плюс пустые шаблоны под свои услуги, договоры, расписки и акты.</p>'
-   +'<button class="btn full" data-go="buy">Забрать таблицы</button><button class="btn ghost full" data-go="contact">Написать мне в Telegram</button></div>';
-}
-function openUrl(u){
-  try{
-    if(tg && /^https?:\/\/t\.me\//.test(u) && tg.openTelegramLink){ tg.openTelegramLink(u); return; }
-    if(tg && tg.openLink){ tg.openLink(u); return; }
-  }catch(e){}
-  window.open(u,'_blank');
-}
-function refreshBar(){
-  var r=calc(1), r2=calc(2);
-  var cnt=r.count+r2.count, sum=r.final+r2.final;
-  document.getElementById('bsum').textContent=money(sum);
-  document.getElementById('bcnt').textContent='позиций: '+cnt;
-  document.getElementById('bgo').textContent = S.tab==='calc' ? 'Смотреть смету' : 'К позициям';
-}
-function show(t){
-  S.tab=t;
-  ['calc','smeta','dop','akt'].forEach(function(x){ document.getElementById('v-'+x).classList.toggle('on',x===t); });
-  [].forEach.call(document.querySelectorAll('#tabs button'),function(b){ b.classList.toggle('on',b.dataset.t===t); });
-  if(t!=='calc') document.getElementById('v-'+t).innerHTML=docHtml(t);
-  refreshBar(); window.scrollTo(0,0);
-}
+function go(v,arg){stack.push([v,arg]);render(v,arg);}
+function tab(v){stack=[[v]];render(v);}
+function back(){if(stack.length>1){stack.pop();var s=stack[stack.length-1];render(s[0],s[1]);}}
+function syncBack(){try{if(!W||!W.BackButton)return;if(stack.length>1)W.BackButton.show();else W.BackButton.hide();}catch(e){}}
+stack=[['home']];
 document.addEventListener('click',function(e){
-  var b=e.target.closest('button'); if(!b) return;
-  if(b.dataset.t){ show(b.dataset.t); return; }
-  if(b.dataset.m){ S.mode=+b.dataset.m; [].forEach.call(document.querySelectorAll('[data-m]'),function(x){x.classList.toggle('on',x===b);}); renderList(); return; }
-  if(b.dataset.c){ S.cat=b.dataset.c; [].forEach.call(document.querySelectorAll('[data-c]'),function(x){x.classList.toggle('on',x===b);}); renderList(); window.scrollTo(0,0); return; }
-  if(b.dataset.k && b.dataset.a){ var k=b.dataset.k, v=qty(S.mode,k)+(b.dataset.a==='+'?1:-1); setQty(S.mode,k,v); haptic(); renderList(); refreshBar(); return; }
-  if(b.dataset.mk){ S.markup=+b.dataset.mk; renderList(); refreshBar(); return; }
-  if(b.dataset.sur!==undefined){ S.sur=+b.dataset.sur; show(S.tab); return; }
-  if(b.dataset.disc!==undefined){ S.disc=+b.dataset.disc; show(S.tab); return; }
-  if(b.dataset.go==='buy'){ openUrl(BUY_URL); return; }
-  if(b.dataset.go==='contact'){ openUrl(CONTACT_URL); return; }
-  if(b.id==='bgo'){ show(S.tab==='calc'?'smeta':'calc'); return; }
-  if(b.id==='reset'){ S.q1={};S.q2={};S.sur=0;S.disc=0;renderList();refreshBar(); return; }
-  if(b.id==='demo'){
-    S.q1={}; S.q2={}; S.sur=15; S.disc=5;
-    function find(c,sub){ var r=null; DATA[c].forEach(function(s,i){ s.items.forEach(function(it,j){ if(!r && it[0].indexOf(sub)===0) r=key(c,i,j); }); }); return r; }
-    var d1=[['work1','Установка механизма',3],['work1','Установка информационной',2],['work1','Установка люстры',1],['work1','Монтаж инсталляции унитаза',1],['work1','Разводка водоснабжения',3],['work1','Разовый выезд',1],['work2','Демонтаж плитки с пола',6],['work2','Штукатурка стен по маякам',24],['work2','Шпаклёвка стен под покраску',24],['work2','Грунтование стен',24],
-      ['mat','Кабель силовой',40],['mat','Труба PPR',12],['mat','Клей плиточный',6],['mat','Грунтовка глубокого',3]];
-    var d2=[['work1','Установка терморегулятора',1],['work2','Монтаж подвесного потолка',8],['mat','Гипсокартон стеновой',6]];
-    d1.forEach(function(x){ var k=find(x[0],x[1]); if(k) S.q1[k]=x[2]; });
-    d2.forEach(function(x){ var k=find(x[0],x[1]); if(k) S.q2[k]=x[2]; });
-    renderList(); refreshBar(); show('smeta'); return; }
+ var t=e.target.closest('[data-v],[data-t],[data-pay],[data-ask],[data-copy]');if(!t)return;
+ if(t.hasAttribute('data-copy')){var c=t.getAttribute('data-copy');var ok=false;try{navigator.clipboard.writeText(c).then(function(){toast('Промокод скопирован');},function(){toast('Промокод: '+c);});ok=true;}catch(x){}if(!ok)toast('Промокод: '+c);return;}
+ if(t.hasAttribute('data-pay')){openExt(PAY);return;}
+ if(t.hasAttribute('data-ask')){openAsk();return;}
+ if(t.hasAttribute('data-t')){hap();go('table',t.getAttribute('data-t'));return;}
+ if(t.hasAttribute('data-v')){hap();if(t.classList.contains('tb')||t.closest('.hero')||true){var v=t.getAttribute('data-v');if(t.classList.contains('tb'))tab(v);else go(v);}}
 });
-document.addEventListener('change',function(e){ var i=e.target; if(i.tagName==='INPUT' && i.dataset.k){ setQty(S.mode,i.dataset.k,parseInt(i.value,10)); renderList(); refreshBar(); } });
-document.getElementById('q').addEventListener('input',function(e){ S.q=e.target.value; renderList(); });
-renderList(); refreshBar();
-</script>
-</body>
-</html>
+function openAsk(){$('#ov').classList.add('on');}
+function closeAsk(){$('#ov').classList.remove('on');}
+$('#askTop').addEventListener('click',openAsk);$('#closeSheet').addEventListener('click',closeAsk);
+$('#ov').addEventListener('click',function(e){if(e.target.id==='ov')closeAsk();});
+$('#cWa').addEventListener('click',function(e){e.preventDefault();openExt(CONTACTS.wa);});
+$('#cTg').addEventListener('click',function(e){e.preventDefault();openTg(CONTACTS.tg);});
+$('#cMx').addEventListener('click',function(e){e.preventDefault();openMax(CONTACTS.max);});
+$('#ph').textContent='Телефон: '+CONTACTS.phone;
+if(TGW){try{TGW.expand();TGW.setHeaderColor('#F6F2E6');TGW.setBackgroundColor('#F6F2E6');}catch(e){}}
+if(W){try{W.ready&&W.ready();}catch(e){}try{W.BackButton&&W.BackButton.onClick(back);}catch(e){}}
+render('home');
+</script></body></html>
